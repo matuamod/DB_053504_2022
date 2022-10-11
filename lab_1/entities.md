@@ -7,7 +7,8 @@
 ___
 |имя поля|тип|ограничения|описание|
 |:------:|:-:|:----------:|:-------:|
-|id|pk|auto increment; not null; unique|первичный ключ|
+|id|INT(4) (pk; auto increment)|not null; unique|первичный ключ|
+|role_id|INT(4) (ForeignKey(Role))|not null|id роли|
 |username|VARCHAR(50)|not null; unique|Название аккаунта|
 |password|VARCHAR(50)|not null|пароль|
 |email|VARCHAR(100)|not null; unique|почта|
@@ -20,8 +21,8 @@ ___
 ___
 имя поля|тип|ограничения|описание|
 |:------:|:-:|:----------:|:-------:|
-|id|pk|auto increment; not null; unique|первичный ключ|
-|user_id|OneToOne(User)|not null|id арендодателя|
+|id|INT(4) (pk; auto increment)|not null; unique|первичный ключ|
+|user_id|INT(4) (OneToOne(User))|not null|id арендодателя|
 |special_key|VARCHAR(10)|not null|спец. ключ арендодателя|
 
 
@@ -29,7 +30,7 @@ ___
 ___
 |имя поля|тип|ограничения|описание|
 |:------:|:-:|:----------:|:-------:|
-|id|pk|auto increment; not null; unique|первичный ключ|
+|id|INT(4) (pk; auto increment)|not null; unique|первичный ключ|
 |name|VARCHAR(50)|not null|название роли|
 |permission|VARCHAR(50)|not null|права роли|
 
@@ -38,7 +39,7 @@ ___
 ___
 |имя поля|тип|ограничения|описание|
 |:------:|:-:|:---------:|:------:|
-|id|pk|auto increment; not null; unique|первичный ключ|
+|id|INT(4) (pk; auto increment)|not null; unique|первичный ключ|
 |type_name|VARCHAR(50)|not null|название типа транспорта|
 
 
@@ -46,24 +47,24 @@ ___
 ___
 |имя поля|тип|ограничения|описание|
 |:------:|:-:|:---------:|:------:|
-|id|pk|auto increment; not null; unique|первичный ключ|
-|landlord_id|ForeignKey(Landlord)|not null|id арендодателя|
-|car_type_id|ForeignKey(Car_type)|not null|id типа транспорта|
+|id|INT(4) (pk; auto increment)|not null; unique|первичный ключ|
+|landlord_id|INT(4) (ForeignKey(Landlord))|not null|id арендодателя|
+|car_type_id|INT(4) (ForeignKey(Car_type))|not null|id типа транспорта|
 |brand|VARCHAR(50)|not null|марка|
 |model|VARCHAR(50)|not null|модель|
 |fuel_type|VARCHAR(20)|blank=True|тип топлива|
-|seats_count|VARCHAR(1)|blank=True|кол-во посадочных мест|
+|seats_count|INT(4)|blank=True|кол-во посадочных мест|
 |color|VARCHAR(50)|blank=True|цвет кузова|
 |registration_plate|VARCHAR(10)|not null; unique|гос. регистрационный номер|
-|price_per_hour|VARCHAR(10)|not null|цена за час аренды|
+|price_per_hour|INT(16)|not null|цена за час аренды|
 
 
 ## Car_images (Фотографии автомобилей)
 ___
 |имя поля|тип|ограничения|описание|
 |:------:|:-:|:---------:|:------:|
-|id|pk|auto increment; not null; unique|первичный ключ|
-|car_id|OneToOne(Car)|not null|автомобиль|
+|id|INT(4) (pk; auto increment)|not null; unique|первичный ключ|
+|car_id|INT(4) (OneToOne(Car))|not null|автомобиль|
 |url|VARCHAR(200)|not null|путь к фотографиям|
 
 
@@ -71,20 +72,20 @@ ___
 ___
 |имя поля|тип|ограничения|описание|
 |:------:|:-:|:----------:|:-------:|
-|id|pk|auto increment; not null; unique|первичный ключ|
-|user_id|ForeignKey(User)|not null|id пользователя|
-|car_id|OneToOne(Car)|not null; unique|арендованный автомобиль|
-|pick_up_id|ForeignKey(Pick_up_point)|not null|id пункта приема-выдачи|
+|id|INT(4) (pk; auto increment)|not null; unique|первичный ключ|
+|user_id|INT(4) (ForeignKey(User))|not null|id пользователя|
+|car_id|INT(4) (OneToOne(Car))|not null; unique|арендованный автомобиль|
+|pick_up_id|INT(4) (ForeignKey(Pick_up_point))|not null|id пункта приема-выдачи|
 |start_date|DATE|not null|дата начала аренды|
 |end_date|DATE|not null|дата конца аренды|
-|total_price|VARCHAR(50)|not null|цена за аренду|
+|total_price|INT(16)|not null|цена за аренду|
 
 
 ## Pick_up_point (пункт приема-выдачи)
 ___
 |имя поля|тип|ограничения|описание|
 |:------:|:-:|:----------:|:-------:|
-|id|pk|auto increment; not null; unique|первичный ключ|
+|id|INT(4) (pk; auto increment)|not null; unique|первичный ключ|
 |reception_point|VARCHAR(100)|not null|пункт приема|
 |issue_point|VARCHAR(100)|blank=True|пункт выдачи|
 
@@ -93,8 +94,8 @@ ___
 ___
 |имя поля|тип|ограничения|описание|
 |:------:|:-:|:----------:|:-------:|
-|id|pk|auto increment; not null; unique|первичный ключ|
-|user_id|ForeignKey(User)|not null|id пользователя|
+|id|INT(4) (pk; auto increment)|not null; unique|первичный ключ|
+|user_id|INT(4) (ForeignKey(User))|not null|id пользователя|
 |message|VARCHAR(500)|not null|логи событий|
 
 
@@ -102,7 +103,7 @@ ___
 ___
 |имя поля|тип|ограничения|описание|
 |:------:|:-:|:----------:|:-------:|
-|id|pk|auto increment; not null; unique|первичный ключ|
-|rental_deal_id|ManyToMany(Rental_deal)|not null|id арендной сделки|
+|id|INT(4) (pk; auto increment)|not null; unique|первичный ключ|
+|rental_deal_id|INT(4) (ManyToMany(Rental_deal))|not null|id арендной сделки|
 |percent|VARCHAR(10)|not null|процент налога от стоимости аренды|
-|price|VARCHAR(50)|not null|стоимость налога|
+|price|INT(16)|not null|стоимость налога|
