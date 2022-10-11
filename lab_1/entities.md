@@ -13,8 +13,7 @@ ___
 |email|VARCHAR(100)|not null; unique|почта|
 |telephone|VARCHAR(13)|blank=True; unique|номер телефона|
 |date_of_birth|DATE|not null|дата рождения|
-|rental_deal_id|ForeignKey(Rental_deal)|blank=True|текущая аренда|
-|rent_status|VARCHAR(50)|not null; default(not active)|статус аренды|
+|rent_status|BOOLEAN|not null; default(False)|статус аренды|
 
 
 ## Landlord (Арендодатель)
@@ -23,8 +22,7 @@ ___
 |:------:|:-:|:----------:|:-------:|
 |id|pk|auto increment; not null; unique|первичный ключ|
 |landlord_id|OneToOne(User)|not null|id арендодателя|
-|private_key|VARCHAR(10)|not null|приватный ключ|
-|car_id|ForeignKey(Car)|blank=True|автомобили для аренды|
+|special_key|VARCHAR(10)|not null|спец. ключ арендодателя|
 
 
 ## Role (роль пользователя)
@@ -42,7 +40,6 @@ ___
 |:------:|:-:|:---------:|:------:|
 |id|pk|auto increment; not null; unique|первичный ключ|
 |type_name|VARCHAR(50)|not null|название типа транспорта|
-|car_id|ForeignKey(Car)|not null|автомобиль|
 
 
 ## Car (Автомобиль)
@@ -50,6 +47,8 @@ ___
 |имя поля|тип|ограничения|описание|
 |:------:|:-:|:---------:|:------:|
 |id|pk|auto increment; not null; unique|первичный ключ|
+|landlord_id|ForeignKey(Landlord)|not null|id арендодателя|
+|car_type_id|ForeignKey(Car_type)|not null|id типа транспорта|
 |brand|VARCHAR(50)|not null|марка|
 |model|VARCHAR(50)|not null|модель|
 |fuel_type|VARCHAR(20)|blank=True|тип топлива|
@@ -73,9 +72,11 @@ ___
 |имя поля|тип|ограничения|описание|
 |:------:|:-:|:----------:|:-------:|
 |id|pk|auto increment; not null; unique|первичный ключ|
+|user_id|ForeignKey(User)|not null|id пользователя|
 |car_id|OneToOne(Car)|not null; unique|арендованный автомобиль|
+|pick_up_id|ForeignKey(Pick_up_point)|not null|id пункта приема-выдачи|
 |start_date|DATE|not null|дата начала аренды|
-|start_date|DATE|not null|дата конца аренды|
+|end_date|DATE|not null|дата конца аренды|
 |total_price|VARCHAR(50)|not null|цена за аренду|
 
 
@@ -84,9 +85,8 @@ ___
 |имя поля|тип|ограничения|описание|
 |:------:|:-:|:----------:|:-------:|
 |id|pk|auto increment; not null; unique|первичный ключ|
-|user_id|ManytoMany(Rental_deal)|not null|арендная сделка|
 |reception_point|VARCHAR(100)|not null|пункт приема|
-|issue_point|VARCHAR(100)|not null|пункт выдачи|
+|issue_point|VARCHAR(100)|blank=True|пункт выдачи|
 
 
 ## User_logs (Логи)
@@ -94,5 +94,15 @@ ___
 |имя поля|тип|ограничения|описание|
 |:------:|:-:|:----------:|:-------:|
 |id|pk|auto increment; not null; unique|первичный ключ|
-|user_id|ForeignKey(User)|not null|пользователь|
+|user_id|ForeignKey(User)|not null|id пользователя|
 |message|VARCHAR(500)|not null|логи событий|
+
+
+## Tax (Налог)
+___
+|имя поля|тип|ограничения|описание|
+|:------:|:-:|:----------:|:-------:|
+|id|pk|auto increment; not null; unique|первичный ключ|
+|rental_deal_id|ManyToMany(Rental_deal)|not null|id арендной сделки|
+|percent|VARCHAR(10)|not null|процент налога от стоимости аренды|
+|price|VARCHAR(50)|not null|стоимость налога|
