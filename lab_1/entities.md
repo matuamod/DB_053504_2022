@@ -21,7 +21,7 @@ ___
 имя поля|тип|ограничения|описание|
 |:------:|:-:|:----------:|:-------:|
 |id|pk|auto increment; not null; unique|первичный ключ|
-|landlord_id|OneToOne(User)|not null|id арендодателя|
+|user_id|OneToOne(User)|not null|id арендодателя|
 |special_key|VARCHAR(10)|not null|спец. ключ арендодателя|
 
 
