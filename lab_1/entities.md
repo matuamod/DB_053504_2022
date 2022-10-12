@@ -23,7 +23,7 @@ ___
 |:------:|:-:|:----------:|:-------:|
 |id|INT(4) (pk; auto increment)|not null; unique|первичный ключ|
 |user_id|INT(4) (OneToOne(User))|not null|id арендодателя|
-|special_key|VARCHAR(10)|not null|спец. ключ арендодателя|
+|special_key|VARCHAR(10)|not null, unique|спец. ключ арендодателя|
 
 
 ## Role (роль пользователя)
@@ -40,7 +40,7 @@ ___
 |имя поля|тип|ограничения|описание|
 |:------:|:-:|:---------:|:------:|
 |id|INT(4) (pk; auto increment)|not null; unique|первичный ключ|
-|type_name|VARCHAR(50)|not null|название типа транспорта|
+|type_name|VARCHAR(50)|not null, unique|название типа транспорта|
 
 
 ## Car (Автомобиль)
@@ -65,7 +65,7 @@ ___
 |:------:|:-:|:---------:|:------:|
 |id|INT(4) (pk; auto increment)|not null; unique|первичный ключ|
 |car_id|INT(4) (OneToOne(Car))|not null|автомобиль|
-|url|VARCHAR(200)|not null|путь к фотографиям|
+|url|VARCHAR(200)|not null, unique|путь к фотографиям|
 
 
 ## Rental_deal (Арендная сделка)
